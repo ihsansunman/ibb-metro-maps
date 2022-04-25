@@ -7,6 +7,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import './style.css';
+import Map from "./Map"
 
 export default function App() {
   const [data, setData] = useState([]);
@@ -37,9 +38,11 @@ export default function App() {
   return (
     <div>
       <h1>Metro İstanbul Ağ Haritası Listesi</h1>
+      
+      <Map/>
 
       {data.map((data) => (
-        <Accordion>
+        <Accordion key={data.Id}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
@@ -55,7 +58,7 @@ export default function App() {
             </Typography>
           </AccordionDetails>
         </Accordion>
-      ))}
+      ))}      
     </div>
   );
 }

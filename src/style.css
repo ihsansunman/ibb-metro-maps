@@ -4,3 +4,8 @@ p {
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   text-align: center;
 }
+
+.markercluster-map {
+  height: 90vh;
+  border-radius: 15px;
+}
