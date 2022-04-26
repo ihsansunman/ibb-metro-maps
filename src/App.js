@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import Skeleton from '@mui/material/Skeleton';
-import Stack from '@mui/material/Stack';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import './style.css';
-import Map from "./Map"
+import './style.scss';
+import Map from "./Components/Map"
+import LoadingSkeleton from './Components/LoadingSkeleton';
 
 export default function App() {
   const [data, setData] = useState([]);
@@ -28,17 +27,14 @@ export default function App() {
 
   if (loading) {
     return (
-      <Stack spacing={1}>
-        <Skeleton variant="text" height={100} />
-        <Skeleton variant="rectangular" height={650} />
-      </Stack>
+      <LoadingSkeleton/>
     );
   }
 
   return (
     <div>
       <h1>Metro İstanbul Ağ Haritası Listesi</h1>
-      
+
       <Map/>
 
       {data.map((data) => (
