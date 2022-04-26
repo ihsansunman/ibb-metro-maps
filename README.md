@@ -6,7 +6,7 @@
 
 ## Screenshots
 
-![Screenshot](https://via.placeholder.com/468x300?text=Coming+soon)
+![Screenshot](https://raw.githubusercontent.com/ihsansunman/ibb-metro-maps/main/src/images/screenshot.png)
 
 ## Run Locally
 
@@ -36,8 +36,9 @@ Start the server
 
 ## Packages
 
-- MUI
+- Leaflet
 - IBB Metro MAP API
+- MUI
 - SASS
 
 ## Authors

@@ -100,31 +100,23 @@ export default function Map() {
     popupAnchor: [1, -34],
     shadowSize: [41, 41],
   });
-  
 
   const iconColor = (LineName) => {
-    if(LineName == "M2"){
+    if (LineName == "M2") {
       return greenIcon;
-    }
-    else if(LineName == "T4"){
+    } else if (LineName == "T4") {
       return orangeIcon;
-    }
-    else if(LineName == "M1A" || LineName == "M1B"){
+    } else if (LineName == "M1A" || LineName == "M1B") {
       return redIcon;
-    }
-    else if(LineName == "T5"){
+    } else if (LineName == "T5") {
       return goldIcon;
-    }
-    else if(LineName == "M4"){
+    } else if (LineName == "M4") {
       return purpleIcon;
-    }
-    else if(LineName == "M3"){
+    } else if (LineName == "M3") {
       return greyIcon;
-    }
-    else if(LineName == "T3" || LineName == "M6" || LineName == "TF2"){
+    } else if (LineName == "T3" || LineName == "M6" || LineName == "TF2") {
       return blackIcon;
-    }
-    else{
+    } else {
       return blueIcon;
     }
   };
@@ -133,11 +125,11 @@ export default function Map() {
     <MapContainer
       className="markercluster-map"
       center={[41.1047, 28.9109]}
-      zoom={10}
+      zoom={10.5}
       scrollWheelZoom={true}
     >
       <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | <a href="https://ihsansunman.asnus.com">ihsansunman</a>'
         url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
       />
       {markerPoint
@@ -149,7 +141,6 @@ export default function Map() {
             icon={iconColor(point.LineName)}
           >
             <Popup>
-              
               İsim: {point.Name} <br /> Açıklama: {point.Description} <br />{" "}
               Hat: {point.LineName}
             </Popup>
