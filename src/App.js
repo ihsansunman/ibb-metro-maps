@@ -7,17 +7,27 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import './style.scss';
 import Map from "./Components/Map"
 import LoadingSkeleton from './Components/LoadingSkeleton';
+import axios from "axios";
 
-export default function App() {
+function App() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const axios = require('axios');
-  const URL = 'https://api.ibb.gov.tr/MetroIstanbul/api/MetroMobile/V2/GetMaps';
+  useEffect(() => {
+    getData();
+  }, []);
 
-  axios.get(URL).then(function (response) {
-    setData(response.data.Data);
-  });
+  const getData = () => {
+    const URL =
+      "https://api.ibb.gov.tr/MetroIstanbul/api/MetroMobile/V2/GetMaps";
+
+    axios(URL).then((response) => {
+      const datas = response.data.Data
+
+      setData(datas);
+    });
+  };
+
 
   useEffect(() => {
     setTimeout(() => {
@@ -33,7 +43,7 @@ export default function App() {
 
   return (
     <div>
-      <h1>Metro İstanbul Ağ Haritası Listesi</h1>
+      <h1>Metro İstanbul Ağ Haritası</h1>
 
       <Map/>
 
@@ -58,3 +68,5 @@ export default function App() {
     </div>
   );
 }
+
+export default App;
