@@ -43,7 +43,7 @@ function App() {
 
   return (
     <div>
-      <h1>Metro İstanbul Ağ Haritası</h1>
+      <h2>Metro İstanbul Ağ Haritası</h2>
 
       <Map/>
 

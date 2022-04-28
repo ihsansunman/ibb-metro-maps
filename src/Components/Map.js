@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import Control from "react-leaflet-custom-control";
+import { Button } from "@mui/material";
+import MyLocationIcon from "@mui/icons-material/MyLocation";
 import {
   MapContainer,
   TileLayer,
@@ -7,10 +10,10 @@ import {
   Popup,
   Polyline,
   LayersControl,
+  useMap,
 } from "react-leaflet";
 import axios from "axios";
 import {
-  polyline_m4,
   blackIcon,
   blueIcon,
   goldIcon,
@@ -19,14 +22,22 @@ import {
   orangeIcon,
   purpleIcon,
   redIcon,
-  polyline_m1a,
-  polyline_t1,
-  polyline_t4,
-  polyline_m2a,
+  polyline_M1A,
+  polyline_M1B,
+  polyline_M2,
+  polyline_M2A,
+  polyline_M4,
+  polyline_T1,
+  polyline_T4,
+  polyline_T5,
+  polyline_M3,
+  polyline_T3,
+  polyline_M6,
 } from "./utils";
 
-function Map() {
+const Map = () => {
   const [markerPoint, setMarkerPoint] = useState([]);
+  const [userPoint, setUserPoint] = useState([]);
 
   useEffect(() => {
     getMarkers();
@@ -73,12 +84,27 @@ function Map() {
     }
   };
 
+  function GetCurrentPosition() {
+    const map = useMap();
+    map.locate().on("locationfound", function (e) {
+      setUserPoint(e.latlng);
+      //console.log(e.latlng);
+      //map.flyTo(e.latlng, 15)
+    });
+  }
+
+  function SetCurrentPosition() {
+    console.log(userPoint);
+    //useMap().flyTo(userPoint, 15);
+    // setPosition(userPoint);
+  }
+
   return (
     <div>
       <MapContainer
         className="markercluster-map"
-        center={[41.1047, 28.9109]}
-        zoom={10.5}
+        center={[41.0188325, 29.0088419]}
+        zoom={11}
         scrollWheelZoom={true}
       >
         <TileLayer
@@ -91,27 +117,57 @@ function Map() {
             <LayerGroup>
               <Polyline
                 // @ts-ignore
-                positions={polyline_m4}
+                positions={polyline_M4}
                 color="violet"
               />
               <Polyline
                 // @ts-ignore
-                positions={polyline_t1}
+                positions={polyline_T1}
               />
               <Polyline
                 // @ts-ignore
-                positions={polyline_t4}
+                positions={polyline_T4}
                 color="orange"
               />
               <Polyline
                 // @ts-ignore
-                positions={polyline_m1a}
+                positions={polyline_M1A}
                 color="red"
               />
               <Polyline
                 // @ts-ignore
-                positions={polyline_m2a}
+                positions={polyline_M1B}
+                color="red"
+              />
+              <Polyline
+                // @ts-ignore
+                positions={polyline_M2}
                 color="green"
+              />
+              <Polyline
+                // @ts-ignore
+                positions={polyline_M2A}
+                color="green"
+              />
+              <Polyline
+                // @ts-ignore
+                positions={polyline_T5}
+                color="yellow"
+              />
+              <Polyline
+                // @ts-ignore
+                positions={polyline_M3}
+                color="grey"
+              />
+              <Polyline
+                // @ts-ignore
+                positions={polyline_T3}
+                color="black"
+              />
+              <Polyline
+                // @ts-ignore
+                positions={polyline_M6}
+                color="black"
               />
             </LayerGroup>
           </LayersControl.Overlay>
@@ -144,9 +200,16 @@ function Map() {
             </LayerGroup>
           </LayersControl.Overlay>
         </LayersControl>
+        <GetCurrentPosition />
+
+        <Control position="bottomleft">
+          <Button onClick={() => SetCurrentPosition()}>
+            <MyLocationIcon />
+          </Button>
+        </Control>
       </MapContainer>
     </div>
   );
-}
+};
 
 export default Map;
