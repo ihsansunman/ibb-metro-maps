@@ -5,6 +5,9 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import './style.scss';
+import {
+  MapContainer
+} from "react-leaflet";
 import Map from "./Components/Map"
 import LoadingSkeleton from './Components/LoadingSkeleton';
 import axios from "axios";
@@ -44,8 +47,14 @@ function App() {
   return (
     <div>
       <h2>Metro İstanbul Ağ Haritası</h2>
-
+      <MapContainer
+        className="markercluster-map"
+        center={[41.0188325, 29.0088419]}
+        zoom={11}
+        scrollWheelZoom={true}
+      >
       <Map/>
+      </MapContainer>
 
       {data.map((data) => (
         <Accordion key={data.Id}>

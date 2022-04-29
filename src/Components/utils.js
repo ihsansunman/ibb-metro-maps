@@ -2414,3 +2414,14 @@ export const blackIcon = new L.Icon({
   popupAnchor: [1, -34],
   shadowSize: [41, 41],
 });
+
+export const myLocationIcon = new L.Icon({
+  iconUrl:
+    "https://www.publicdomainpictures.net/pictures/310000/velka/periwinkle-blue-circle.png",
+  shadowUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+  iconSize: [25, 25],
+  iconAnchor: [25, 25],
+  popupAnchor: [0, 0],
+  shadowSize: [41, 41],
+});

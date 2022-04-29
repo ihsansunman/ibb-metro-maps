@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Control from "react-leaflet-custom-control";
 import { Button } from "@mui/material";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
 import {
-  MapContainer,
   TileLayer,
   LayerGroup,
   Marker,
@@ -22,6 +21,7 @@ import {
   orangeIcon,
   purpleIcon,
   redIcon,
+  myLocationIcon,
   polyline_M1A,
   polyline_M1B,
   polyline_M2,
@@ -34,10 +34,12 @@ import {
   polyline_T3,
   polyline_M6,
 } from "./utils";
+import { map } from "leaflet";
 
 const Map = () => {
   const [markerPoint, setMarkerPoint] = useState([]);
-  const [userPoint, setUserPoint] = useState([]);
+  const [userPoint, setUserPoint] = useState([0, 0]);
+  const map = useMap();
 
   useEffect(() => {
     getMarkers();
@@ -85,7 +87,6 @@ const Map = () => {
   };
 
   function GetCurrentPosition() {
-    const map = useMap();
     map.locate().on("locationfound", function (e) {
       setUserPoint(e.latlng);
       //console.log(e.latlng);
@@ -93,26 +94,23 @@ const Map = () => {
     });
   }
 
-  function SetCurrentPosition() {
+  function SetCurrentPosition () {
     console.log(userPoint);
-    //useMap().flyTo(userPoint, 15);
+    map.flyTo(userPoint, 15);
     // setPosition(userPoint);
   }
-
+//.dene patladıok bekle Denedim arrow da olmuyor Sayfa yüklenmiyor  olum arrow function böyle yazılmıyo muu
+// Uncaught Error: No context provided: useLeafletContext() can only be used in a descendant of <MapContainer>
+// hata bu mu şuan Boş ekran ve hata bu Aynı hata yenielsene
   return (
-    <div>
-      <MapContainer
-        className="markercluster-map"
-        center={[41.0188325, 29.0088419]}
-        zoom={11}
-        scrollWheelZoom={true}
-      >
+    <>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | <a href="https://ihsansunman.asnus.com">ihsansunman</a>'
           url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
         />
 
         <LayersControl position="topright">
+          <Marker position={userPoint} icon={myLocationIcon} />
           <LayersControl.Overlay checked name="Line">
             <LayerGroup>
               <Polyline
@@ -203,12 +201,11 @@ const Map = () => {
         <GetCurrentPosition />
 
         <Control position="bottomleft">
-          <Button onClick={() => SetCurrentPosition()}>
+          <Button onClick={()=>SetCurrentPosition()}>
             <MyLocationIcon />
           </Button>
         </Control>
-      </MapContainer>
-    </div>
+    </>
   );
 };
 
