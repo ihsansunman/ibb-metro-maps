@@ -12,6 +12,7 @@ import {
   useMap,
 } from "react-leaflet";
 import axios from "axios";
+import _ from "lodash";
 import {
   blackIcon,
   blueIcon,
@@ -34,12 +35,13 @@ import {
   polyline_T3,
   polyline_M6,
 } from "./utils";
-import { map } from "leaflet";
 
 const Map = () => {
   const [markerPoint, setMarkerPoint] = useState([]);
   const [userPoint, setUserPoint] = useState([0, 0]);
   const map = useMap();
+  // var [sample, setSample] = useState("");
+  // var [sampleN, setSampleN] = useState(null);
 
   useEffect(() => {
     getMarkers();
@@ -57,6 +59,20 @@ const Map = () => {
       setMarkerPoint(markers);
     });
   };
+
+  // useEffect(() => {
+  //   setSampleN = 34 * useMap().getZoom() - 290;
+  //   console.log("sampleN"+sampleN)
+  // }, []);
+  // setSample = _.sampleSize(markerPoint, sampleN);
+  // console.log("sample"+sample)
+
+  map.on("zoomstart", function (e) {
+    console.log("ZOOMSTART", e);
+  });
+  map.on("zoomend", function (e) {
+    console.log("ZOOMEND", e);
+  });
 
   const iconColor = (LineName) => {
     if (LineName == "M2") {
@@ -89,122 +105,125 @@ const Map = () => {
   function GetCurrentPosition() {
     map.locate().on("locationfound", function (e) {
       setUserPoint(e.latlng);
-      //console.log(e.latlng);
-      //map.flyTo(e.latlng, 15)
     });
   }
 
-  function SetCurrentPosition () {
+  function SetCurrentPosition() {
     console.log(userPoint);
     map.flyTo(userPoint, 15);
-    // setPosition(userPoint);
   }
-//.dene patladıok bekle Denedim arrow da olmuyor Sayfa yüklenmiyor  olum arrow function böyle yazılmıyo muu
-// Uncaught Error: No context provided: useLeafletContext() can only be used in a descendant of <MapContainer>
-// hata bu mu şuan Boş ekran ve hata bu Aynı hata yenielsene
+
   return (
     <>
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | <a href="https://ihsansunman.asnus.com">ihsansunman</a>'
-          url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
-        />
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> | <a href="https://ihsansunman.asnus.com">ihsansunman</a>'
+        url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+      />
 
-        <LayersControl position="topright">
-          <Marker position={userPoint} icon={myLocationIcon} />
-          <LayersControl.Overlay checked name="Line">
-            <LayerGroup>
-              <Polyline
-                // @ts-ignore
-                positions={polyline_M4}
-                color="violet"
-              />
-              <Polyline
-                // @ts-ignore
-                positions={polyline_T1}
-              />
-              <Polyline
-                // @ts-ignore
-                positions={polyline_T4}
-                color="orange"
-              />
-              <Polyline
-                // @ts-ignore
-                positions={polyline_M1A}
-                color="red"
-              />
-              <Polyline
-                // @ts-ignore
-                positions={polyline_M1B}
-                color="red"
-              />
-              <Polyline
-                // @ts-ignore
-                positions={polyline_M2}
-                color="green"
-              />
-              <Polyline
-                // @ts-ignore
-                positions={polyline_M2A}
-                color="green"
-              />
-              <Polyline
-                // @ts-ignore
-                positions={polyline_T5}
-                color="yellow"
-              />
-              <Polyline
-                // @ts-ignore
-                positions={polyline_M3}
-                color="grey"
-              />
-              <Polyline
-                // @ts-ignore
-                positions={polyline_T3}
-                color="black"
-              />
-              <Polyline
-                // @ts-ignore
-                positions={polyline_M6}
-                color="black"
-              />
-            </LayerGroup>
-          </LayersControl.Overlay>
-          <LayersControl.Overlay checked name="Point">
-            <LayerGroup>
-              {markerPoint.map((point) => {
-                return (
-                  <Marker
-                    key={point.Id}
-                    position={[
-                      point.DetailInfo.Longitude,
-                      point.DetailInfo.Latitude,
-                    ]}
-                    icon={iconColor(point.LineName)}
-                  >
-                    <Popup>
-                      İsim: {point.Name} <br /> Açıklama: {point.Description}{" "}
-                      <br />
-                      Hat: {point.LineName} <br /> <br /> Yürüyen Merdiven
-                      Sayısı:
-                      {point.DetailInfo.Escolator} <br /> Asansör Sayısı:
-                      {point.DetailInfo.Lift} <br /> Mescit:
-                      {statusControl(point.DetailInfo.Masjid)} <br /> WC:
-                      {statusControl(point.DetailInfo.WC)} <br /> Bebek Odası:
-                      {statusControl(point.DetailInfo.Babyroom)}
-                    </Popup>
-                  </Marker>
-                );
-              })}
-            </LayerGroup>
-          </LayersControl.Overlay>
-        </LayersControl>
-        <GetCurrentPosition />
+      <LayersControl position="topright">
+        <Marker position={userPoint} icon={myLocationIcon} />
+        <LayersControl.Overlay checked name="Line">
+          <LayerGroup>
+            <Polyline
+              // @ts-ignore
+              positions={polyline_M4}
+              color="violet"
+            />
+            <Polyline
+              // @ts-ignore
+              positions={polyline_T1}
+            />
+            <Polyline
+              // @ts-ignore
+              positions={polyline_T4}
+              color="orange"
+            />
+            <Polyline
+              // @ts-ignore
+              positions={polyline_M1A}
+              color="red"
+            />
+            <Polyline
+              // @ts-ignore
+              positions={polyline_M1B}
+              color="red"
+            />
+            <Polyline
+              // @ts-ignore
+              positions={polyline_M2}
+              color="green"
+            />
+            <Polyline
+              // @ts-ignore
+              positions={polyline_M2A}
+              color="green"
+            />
+            <Polyline
+              // @ts-ignore
+              positions={polyline_T5}
+              color="yellow"
+            />
+            <Polyline
+              // @ts-ignore
+              positions={polyline_M3}
+              color="grey"
+            />
+            <Polyline
+              // @ts-ignore
+              positions={polyline_T3}
+              color="black"
+            />
+            <Polyline
+              // @ts-ignore
+              positions={polyline_M6}
+              color="black"
+            />
+          </LayerGroup>
+        </LayersControl.Overlay>
+        <LayersControl.Overlay checked name="Point">
+          <LayerGroup>
+            {markerPoint.map((point) => {
+              return (
+                <Marker
+                  key={point.Id}
+                  position={[
+                    point.DetailInfo.Longitude,
+                    point.DetailInfo.Latitude,
+                  ]}
+                  icon={iconColor(point.LineName)}
+                >
+                  <Popup>
+                    İsim: {point.Name} <br /> Açıklama: {point.Description}{" "}
+                    <br />
+                    Hat: {point.LineName} <br /> <br /> Yürüyen Merdiven Sayısı:
+                    {point.DetailInfo.Escolator} <br /> Asansör Sayısı:
+                    {point.DetailInfo.Lift} <br /> Mescit:
+                    {statusControl(point.DetailInfo.Masjid)} <br /> WC:
+                    {statusControl(point.DetailInfo.WC)} <br /> Bebek Odası:
+                    {statusControl(point.DetailInfo.Babyroom)}
+                  </Popup>
+                </Marker>
+              );
+            })}
+          </LayerGroup>
+        </LayersControl.Overlay>
+      </LayersControl>
+      <GetCurrentPosition />
 
-        <Control position="bottomleft">
-          <Button onClick={()=>SetCurrentPosition()}>
-            <MyLocationIcon />
-          </Button>
-        </Control>
+      <Control position="topright">
+        <Button
+          sx={{
+            color: "#000",
+            backgroundColor: "#fff",
+            width: 5,
+            "&:hover": { backgroundColor: "#fff" },
+          }}
+          variant="contained"
+          onClick={() => SetCurrentPosition()}
+        >
+          <MyLocationIcon />
+        </Button>
+      </Control>
     </>
   );
 };
