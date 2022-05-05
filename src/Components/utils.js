@@ -2421,7 +2421,7 @@ export const myLocationIcon = new L.Icon({
   shadowUrl:
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
   iconSize: [25, 25],
-  iconAnchor: [25, 25],
+  iconAnchor: [12, 0],
   popupAnchor: [0, 0],
   shadowSize: [41, 41],
 });

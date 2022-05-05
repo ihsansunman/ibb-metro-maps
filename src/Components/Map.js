@@ -71,8 +71,8 @@ const Map = () => {
 
   const GetZoomLevel = () => {
     const maxpointCount = 192;
-    const maxlevel = 15;
-    const minpointCount = 7;
+    const maxlevel = 13;
+    const minpointCount = 3;
     const minlevel = 10;
 
     const zoomLevel =
@@ -128,7 +128,11 @@ const Map = () => {
       />
 
       <LayersControl position="topright">
-        <Marker position={userPoint} icon={myLocationIcon} />
+        <Marker position={userPoint} icon={myLocationIcon}>
+          <Popup>
+            Şuan da buradasınız.
+          </Popup>
+        </Marker>
         <LayersControl.Overlay checked name="Line">
           <LayerGroup>
             <Polyline
