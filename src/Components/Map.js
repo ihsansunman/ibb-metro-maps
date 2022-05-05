@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import Control from "react-leaflet-custom-control";
 import { Button } from "@mui/material";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
+import _ from "lodash";
 import {
   TileLayer,
   LayerGroup,
@@ -12,7 +13,6 @@ import {
   useMap,
 } from "react-leaflet";
 import axios from "axios";
-import _ from "lodash";
 import {
   blackIcon,
   blueIcon,
@@ -39,13 +39,17 @@ import {
 const Map = () => {
   const [markerPoint, setMarkerPoint] = useState([]);
   const [userPoint, setUserPoint] = useState([0, 0]);
+  const [zoomMarker, setZoomMarker] = useState([]);
   const map = useMap();
-  // var [sample, setSample] = useState("");
-  // var [sampleN, setSampleN] = useState(null);
+  const getZoom = useMap().getZoom();
 
   useEffect(() => {
     getMarkers();
   }, []);
+
+  useEffect(() => {
+    GetZoomLevel();
+  }, [markerPoint]);
 
   const getMarkers = () => {
     const URL =
@@ -60,20 +64,16 @@ const Map = () => {
     });
   };
 
-  // useEffect(() => {
-  //   setSampleN = 34 * useMap().getZoom() - 290;
-  //   console.log("sampleN"+sampleN)
-  // }, []);
-  // setSample = _.sampleSize(markerPoint, sampleN);
-  // console.log("sample"+sample)
+  useEffect(() => {
+    GetZoomLevel();
+  }, [getZoom]);
 
-  map.on("zoomstart", function (e) {
-    console.log("ZOOMSTART", e);
-  });
-  map.on("zoomend", function (e) {
-    console.log("ZOOMEND", e);
-  });
-
+  const GetZoomLevel = () => {
+    var zoomLevel = 50;
+    zoomLevel = 34 * getZoom - 290;
+    var zoomMarker = _.sampleSize(markerPoint, zoomLevel);
+    setZoomMarker(zoomMarker);
+  };
   const iconColor = (LineName) => {
     if (LineName == "M2") {
       return greenIcon;
@@ -182,7 +182,7 @@ const Map = () => {
         </LayersControl.Overlay>
         <LayersControl.Overlay checked name="Point">
           <LayerGroup>
-            {markerPoint.map((point) => {
+            {zoomMarker.map((point) => {
               return (
                 <Marker
                   key={point.Id}
@@ -229,3 +229,6 @@ const Map = () => {
 };
 
 export default Map;
+function getZoom() {
+  throw new Error("Function not implemented.");
+}
