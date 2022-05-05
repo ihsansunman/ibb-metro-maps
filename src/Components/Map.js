@@ -11,6 +11,7 @@ import {
   Polyline,
   LayersControl,
   useMap,
+  Circle,
 } from "react-leaflet";
 import axios from "axios";
 import {
@@ -59,7 +60,6 @@ const Map = () => {
       const markers = response.data.Data.filter(
         (x) => x.DetailInfo.Latitude !== null
       );
-      console.log(markers);
 
       setMarkerPoint(markers);
     });
@@ -70,16 +70,16 @@ const Map = () => {
   }, [getZoom]);
 
   const GetZoomLevel = () => {
-    var maxpointCount = 192;
-    var maxlevel = 15;
-    var minpointCount = 7;
-    var minlevel = 10;
+    const maxpointCount = 192;
+    const maxlevel = 15;
+    const minpointCount = 7;
+    const minlevel = 10;
 
-    var zoomLevel =
+    const zoomLevel =
       ((maxpointCount - minpointCount) / (maxlevel - minlevel)) *
         (getZoom - minlevel) +
       minpointCount;
-    var zoomMarker = _.sampleSize(markerPoint, zoomLevel);
+    const zoomMarker = _.sampleSize(markerPoint, zoomLevel);
     setZoomMarker(zoomMarker);
   };
   const iconColor = (LineName) => {
@@ -117,7 +117,6 @@ const Map = () => {
   }
 
   function SetCurrentPosition() {
-    console.log(userPoint);
     map.flyTo(userPoint, 15);
   }
 
@@ -216,6 +215,7 @@ const Map = () => {
           </LayerGroup>
         </LayersControl.Overlay>
       </LayersControl>
+      <Circle center={userPoint} fillColor={"blue"} radius={"1500"} />
       <GetCurrentPosition />
 
       <Control position="topright">
@@ -237,6 +237,3 @@ const Map = () => {
 };
 
 export default Map;
-function getZoom() {
-  throw new Error("Function not implemented.");
-}
