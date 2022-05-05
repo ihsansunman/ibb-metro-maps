@@ -59,6 +59,7 @@ const Map = () => {
       const markers = response.data.Data.filter(
         (x) => x.DetailInfo.Latitude !== null
       );
+      console.log(markers);
 
       setMarkerPoint(markers);
     });
@@ -69,8 +70,15 @@ const Map = () => {
   }, [getZoom]);
 
   const GetZoomLevel = () => {
-    var zoomLevel = 50;
-    zoomLevel = 34 * getZoom - 290;
+    var maxpointCount = 192;
+    var maxlevel = 15;
+    var minpointCount = 7;
+    var minlevel = 10;
+
+    var zoomLevel =
+      ((maxpointCount - minpointCount) / (maxlevel - minlevel)) *
+        (getZoom - minlevel) +
+      minpointCount;
     var zoomMarker = _.sampleSize(markerPoint, zoomLevel);
     setZoomMarker(zoomMarker);
   };
