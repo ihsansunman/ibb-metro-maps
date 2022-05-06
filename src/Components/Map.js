@@ -34,7 +34,9 @@ import {
   polyline_T5,
   polyline_M3,
   polyline_T3,
+  polyline_M5,
   polyline_M6,
+  polyline_M7,
 } from "./utils";
 
 const Map = () => {
@@ -59,7 +61,14 @@ const Map = () => {
     axios(URL).then((response) => {
       const markers = response.data.Data.filter(
         (x) => x.DetailInfo.Latitude !== null
-      );
+      ).map((marker) => {
+        if (marker.LineName == "M7" || marker.LineName == "M5") {
+          let swap = marker.DetailInfo.Latitude;
+          marker.DetailInfo.Latitude = marker.DetailInfo.Longitude;
+          marker.DetailInfo.Longitude = swap;
+        }
+        return marker;
+      });
 
       setMarkerPoint(markers);
     });
@@ -85,13 +94,13 @@ const Map = () => {
   const iconColor = (LineName) => {
     if (LineName == "M2") {
       return greenIcon;
-    } else if (LineName == "T4") {
+    } else if (LineName == "T4" || LineName == "M5") {
       return orangeIcon;
     } else if (LineName == "M1A" || LineName == "M1B") {
       return redIcon;
     } else if (LineName == "T5") {
       return goldIcon;
-    } else if (LineName == "M4") {
+    } else if (LineName == "M4" || LineName == "M7") {
       return purpleIcon;
     } else if (LineName == "M3") {
       return greyIcon;
@@ -112,11 +121,13 @@ const Map = () => {
 
   function GetCurrentPosition() {
     map.locate().on("locationfound", function (e) {
-      setUserPoint(e.latlng);
+      // @ts-ignore
+      return setUserPoint(e.latlng);
     });
   }
 
   function SetCurrentPosition() {
+    // @ts-ignore
     map.flyTo(userPoint, 15);
   }
 
@@ -128,10 +139,12 @@ const Map = () => {
       />
 
       <LayersControl position="topright">
-        <Marker position={userPoint} icon={myLocationIcon}>
-          <Popup>
-            Şuan da buradasınız.
-          </Popup>
+        <Marker
+          // @ts-ignore
+          position={userPoint}
+          icon={myLocationIcon}
+        >
+          <Popup>Şuan da buradasınız.</Popup>
         </Marker>
         <LayersControl.Overlay checked name="Line">
           <LayerGroup>
@@ -186,8 +199,18 @@ const Map = () => {
             />
             <Polyline
               // @ts-ignore
+              positions={polyline_M5}
+              color="orange"
+            />
+            <Polyline
+              // @ts-ignore
               positions={polyline_M6}
               color="black"
+            />
+            <Polyline
+              // @ts-ignore
+              positions={polyline_M7}
+              color="violet"
             />
           </LayerGroup>
         </LayersControl.Overlay>
@@ -204,7 +227,7 @@ const Map = () => {
                   icon={iconColor(point.LineName)}
                 >
                   <Popup>
-                    İsim: {point.Name} <br /> Açıklama: {point.Description}{" "}
+                    İsim: {point.Name} <br /> Açıklama: {point.Description}
                     <br />
                     Hat: {point.LineName} <br /> <br /> Yürüyen Merdiven Sayısı:
                     {point.DetailInfo.Escolator} <br /> Asansör Sayısı:
