@@ -37,6 +37,9 @@ import {
   polyline_M5,
   polyline_M6,
   polyline_M7,
+  polyline_F1,
+  polyline_TF1,
+  polyline_TF2,
 } from "./utils";
 
 const Map = () => {
@@ -211,6 +214,19 @@ const Map = () => {
               // @ts-ignore
               positions={polyline_M7}
               color="violet"
+            />
+            <Polyline
+              // @ts-ignore
+              positions={polyline_F1}
+            />
+            <Polyline
+              // @ts-ignore
+              positions={polyline_TF1}
+            />
+            <Polyline
+              // @ts-ignore
+              positions={polyline_TF2}
+              color="black"
             />
           </LayerGroup>
         </LayersControl.Overlay>
