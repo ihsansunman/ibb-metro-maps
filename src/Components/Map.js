@@ -49,13 +49,20 @@ const Map = () => {
   const map = useMap();
   const getZoom = useMap().getZoom();
 
+  // Markerları getirmek için
   useEffect(() => {
     getMarkers();
   }, []);
 
+  // Başlangıç markerlarını zoom'a göre çağırmak için
   useEffect(() => {
     GetZoomLevel();
   }, [markerPoint]);
+
+  // Zoom değiştiğinde marker sayısını değiştirmek için
+  useEffect(() => {
+    GetZoomLevel();
+  }, [getZoom]);
 
   const getMarkers = () => {
     const URL =
@@ -76,10 +83,6 @@ const Map = () => {
       setMarkerPoint(markers);
     });
   };
-
-  useEffect(() => {
-    GetZoomLevel();
-  }, [getZoom]);
 
   const GetZoomLevel = () => {
     const maxpointCount = 192;

@@ -11,6 +11,7 @@ import {
 import Map from "./Components/Map"
 import LoadingSkeleton from './Components/LoadingSkeleton';
 import axios from "axios";
+import Footer from './Components/Footer';
 
 function App() {
   const [data, setData] = useState([]);
@@ -59,13 +60,14 @@ function App() {
       {data.map((data) => (
         <Accordion key={data.Id}>
           <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
+            expandIcon={<ExpandMoreIcon sx={{ color: "white" }}/>}
             aria-controls="panel1a-content"
             id="panel1a-header"
+            sx={{backgroundColor: "#222222", color: "white"}}
           >
             <Typography>{data.Title}</Typography>
           </AccordionSummary>
-          <AccordionDetails>
+          <AccordionDetails sx={{backgroundColor: "#222222"}}>
             <Typography>
               <a href={data.ImageURL} target="_blank">
                 <img src={data.IconURL} />
@@ -73,7 +75,8 @@ function App() {
             </Typography>
           </AccordionDetails>
         </Accordion>
-      ))}      
+      ))}
+      <Footer/>
     </div>
   );
 }
