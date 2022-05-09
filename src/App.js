@@ -4,6 +4,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import MapIcon from '@mui/icons-material/Map';
 import './style.scss';
 import {
   MapContainer
@@ -12,6 +13,7 @@ import Map from "./Components/Map"
 import LoadingSkeleton from './Components/LoadingSkeleton';
 import axios from "axios";
 import Footer from './Components/Footer';
+import { Button } from '@mui/material';
 
 function App() {
   const [data, setData] = useState([]);
@@ -47,7 +49,10 @@ function App() {
 
   return (
     <div>
-      <h2>Metro İstanbul Ağ Haritası</h2>
+      <div className='header'>
+      <MapIcon className='maps-button' sx={{color: "white"}} onClick={()=> location.href='#maps'}/>
+      <h2 className='site-title'>Metro İstanbul Ağ Haritası</h2>
+      </div>
       <MapContainer
         className="markercluster-map"
         center={[41.0188325, 29.0088419]}
@@ -58,7 +63,7 @@ function App() {
       </MapContainer>
 
       {data.map((data) => (
-        <Accordion key={data.Id}>
+        <Accordion key={data.Id} id="maps">
           <AccordionSummary
             expandIcon={<ExpandMoreIcon sx={{ color: "white" }}/>}
             aria-controls="panel1a-content"
